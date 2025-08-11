@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "../inc/server.h"
 
 int main()
@@ -29,7 +30,7 @@ int main()
       continue;
     }
   }
-	
+  
   return 0;
 }
 

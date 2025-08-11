@@ -44,5 +44,16 @@ void* request_handler( void * p_client_sd )
   
   recv( client_sd, &buffer, ( size_t ) ( sizeof( buffer ) - 1), 0 );
   printf( "%s\n\n", buffer );
+  request_normalization( ( const char * ) &buffer );
+  
+  char * response = send_example_response();
+  printf( "Request handler: %s\n", response );
+  send( client_sd, response, ( size_t ) strlen( response ), 0 );
+  free( response );
+  
+  shutdown(client_sd, SHUT_RDWR);
+  
   return p_client_sd;
 }
+
+

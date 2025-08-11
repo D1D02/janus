@@ -5,10 +5,10 @@ SRC_DIR := src
 INC_DIR := inc
 BUILD_DIR := build
 
-TARGET := $(BUILD_DIR)/example
+TARGET := $(BUILD_DIR)/server
 
 # Specify the base names for the source files
-SRCS := main.c server.c
+SRCS :=  request.c response.c server.c main.c
 # Build the full paths for sources and headers
 SOURCES := $(addprefix $(SRC_DIR)/, $(SRCS))
 HEADERS := $(addprefix $(INC_DIR)/, server.h)
