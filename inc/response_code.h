@@ -1,0 +1,11 @@
+#ifndef RESPONSE_CODE_H
+#define  RESPONSE_CODE_H
+
+enum RESPONSE_TYPE{
+ OK = 200,
+ NOT_FOUND = 404,
+ SERVER_ERROR = 500
+};
+
+
+#endif
