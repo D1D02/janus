@@ -5,8 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct HttpRequest{
+#include "./utils/file.h"
+
+typedef struct HTTP_REQUEST{
   char * method;
+  char * path;
   char * host;
   char * user_agent;
   char * accept;
