@@ -19,5 +19,6 @@ typedef struct HTTP_REQUEST{
 }httpRequest;
 
 httpRequest * request_normalization ( const char * );
+char * extract_path_get_request( const char * );
 
 #endif
