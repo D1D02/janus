@@ -38,7 +38,7 @@ file_c * get_html_data( const char * location )
   html->content = html_content;
   printf( "File content: %s\n", html_content );
   
-  
+  fclose( fptr );
   return html;
 }
 
