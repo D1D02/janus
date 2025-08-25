@@ -61,7 +61,7 @@ httpResponse * get_response( httpRequest * request )
     
     
   file_c * html = get_html_data( ( const char * ) path );
-  if( html == NULL )
+  if( html == NULL || html->size == 0 )
   {
     response->response_body = bad_request(); //ToDo: 404 status
     return response;
@@ -93,7 +93,7 @@ httpResponse * get_response( httpRequest * request )
 char * bad_request( void )
 {
   printf( "In response sender.\n" );
-  const char *response_html =
+  const char * response_html =
     "<!DOCTYPE HTML>\n"
     "<html>\n"
     "<body>\n"
