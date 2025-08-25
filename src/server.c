@@ -43,12 +43,13 @@ void* request_handler( void * p_client_sd )
   const int client_sd = *( ( int * ) p_client_sd );
   
   recv( client_sd, &buffer, ( size_t ) ( sizeof( buffer ) - 1), 0 );
-  printf( "%s\n\n", buffer );
-  request_normalization( ( const char * ) &buffer );
+  //printf( "%s\n\n", buffer );
+  httpRequest * request = request_normalization( ( const char * ) &buffer );
   
-  char * response = send_example_response();
-  printf( "Request handler: %s\n", response );
-  send( client_sd, response, ( size_t ) strlen( response ), 0 );
+  httpResponse * response = get_response( request );
+  printf( "Request handler: %s\n", response->response_body );
+  send( client_sd, response->response_body, ( size_t ) strlen( response->response_body ), 0 );
+  free( request );
   free( response );
   
   shutdown(client_sd, SHUT_RDWR);
