@@ -52,8 +52,8 @@ httpResponse * get_response( httpRequest * request )
     strcat( path, request->path );
     printf("PATH: %s%s\n", APP_PATH, request->path );
     
-    file_c * html = get_html_data( ( const char * ) path );
-    if( html == NULL || html->size == 0 )
+    file_c * file = get_data( ( const char * ) path );
+    if( file == NULL || file->size == 0 )
     {
         response->response_body = bad_request(); 
         return response;
@@ -62,20 +62,22 @@ httpResponse * get_response( httpRequest * request )
     size_t header_len = snprintf(
     	NULL, 0, 
         "HTTP/1.1 200 OK\r\n"
-        "Content-Type: text/html; charset=UTF-8\r\n"
+        "Content-Type: %s\r\n"
         "Content-Length: %zu\r\n"
         "\r\n", 
-        html->size
+        file->type,
+        file->size
     );
+    
 
-    size_t total_len = header_len + html->size + 1; 
+    size_t total_len = header_len + file->size + 1; 
     char * response_body = ( char * ) malloc( total_len );
 
     if (response_body == NULL) 
     {
         free(path);
-        free(html->content);
-        free(html);
+        free(file->content);
+        free(file);
         response->response_body = bad_request();
         return response;
     }
@@ -83,19 +85,21 @@ httpResponse * get_response( httpRequest * request )
     snprintf(
     	response_body, total_len,
         "HTTP/1.1 200 OK\r\n"
-        "Content-Type: text/html; charset=UTF-8\r\n"
+        "Content-Type: %s\r\n"
         "Content-Length: %zu\r\n"
         "\r\n"
         "%s",
-        html->size, html->content
+        file->type,
+        file->size, 
+        file->content
     );
 
     response->response_body = response_body;
     printf( "In response, response body: %s\n", response->response_body );
     
     free(path);
-    free(html->content);
-    free(html);
+    free(file->content);
+    free(file);
     
     return response;
 }
