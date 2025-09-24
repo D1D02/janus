@@ -22,7 +22,7 @@ FILE * open_file_read_only( const char * location )
     return fptr;
 }
 
-file_c * get_html_data( const char * location )
+file_c * get_data( const char * location )
 {
     FILE * fptr;
     file_c * html = ( file_c * ) malloc( sizeof( file_c ) );

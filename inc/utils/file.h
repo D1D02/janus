@@ -15,7 +15,7 @@ typedef struct FILE_CONTENT{
 
 /*---------------------------------------------------File Handling----------------------------------------------------*/
 FILE * open_file_read_only( const char * );
-file_c * get_html_data( const char * );
+file_c * get_data( const char * );
 
 
 #endif
