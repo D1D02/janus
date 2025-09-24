@@ -54,7 +54,7 @@ unsigned short int characters_count( FILE * fptr )
     fgetc( fptr );
     size++;
   
-  }while( feof( fptr ) == 0 && size < MAX_HTML_SIZE );
+  }while( feof( fptr ) == 0  ); //&& size < MAX_HTML_SIZE
   
   return size;
   
