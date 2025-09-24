@@ -20,12 +20,11 @@ char * send_example_response( void )
     "Content-Type: text/html; charset=UTF-8\r\n"
     "Content-Length: %zu\r\n"
     "\r\n"
-    "%s"
-    "\0",
+    "%s",
     strlen( response_html ),
     response_html
   );	
-  printf( "Size of response: %d\n", strlen( response ) );
+  printf( "Size of response: %ld\n", strlen( response ) );
     
   return response;
 
@@ -126,8 +125,7 @@ char * bad_request( void )
     "Content-Type: text/html; charset=UTF-8\r\n"
     "Content-Length: %zu\r\n"
     "\r\n"
-    "%s"
-    "\0",
+    "%s",
     strlen( response_html ),
     response_html
   );	
