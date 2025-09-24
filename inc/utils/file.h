@@ -10,12 +10,17 @@
 typedef struct FILE_CONTENT{
   char * content;
   size_t size;
+  char * type;
 }file_c;
 
 
 /*---------------------------------------------------File Handling----------------------------------------------------*/
 FILE * open_file_read_only( const char * );
 file_c * get_data( const char * );
+
+/*----------------------------------------------------Content Type-----------------------------------------------------*/
+const char * get_file_extension( const char * );
+const char * get_content_type( const char * );
 
 
 #endif
