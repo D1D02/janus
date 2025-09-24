@@ -17,7 +17,5 @@ typedef struct FILE_CONTENT{
 FILE * open_file_read_only( const char * );
 file_c * get_html_data( const char * );
 
-/*-------------------------------------------------String Manipulation------------------------------------------------*/
-unsigned short int characters_count( FILE * fptr );
 
 #endif
