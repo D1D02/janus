@@ -9,7 +9,7 @@
 
 typedef struct FILE_CONTENT{
   char * content;
-  unsigned short int size;
+  size_t size;
 }file_c;
 
 
