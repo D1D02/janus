@@ -1,6 +1,5 @@
 #include "../inc/response.h"
 
-#define BUFFER_SIZE 512
 
 char * send_example_response( void )
 {
@@ -13,10 +12,10 @@ char * send_example_response( void )
     "</body>\n"
     "</html>\n";
   
-  char * response = ( char * ) malloc( BUFFER_SIZE * sizeof( char ) );
+  char * response = ( char * ) malloc( 512 * sizeof( char ) );
   
   snprintf( 
-    response, ( size_t ) BUFFER_SIZE, 
+    response, ( size_t ) 512, 
     "HTTP/1.1 200 OK\r\n"
     "Content-Type: text/html; charset=UTF-8\r\n"
     "Content-Length: %zu\r\n"
@@ -40,51 +39,65 @@ enum RESPONSE_TYPE{
 
 httpResponse * get_response( httpRequest * request )
 {
-  httpResponse * response = ( httpResponse * ) malloc( sizeof( httpResponse ) );
-  
-  if( strstr( request->path, ".." ) != NULL )
-  {
-    response->response_body = bad_request();
-    return response;
-  }
-  
-  char * path = ( char * ) malloc( strlen( APP_PATH ) + strlen( request->path ) + 1 );
-  if( path  == NULL )
-  {
-    response->response_body = bad_request(); 
-    return response;
-  } 
-  path[0] = '\0';
-  strcat( path, APP_PATH) ;
-  strcat( path, request->path );
-  printf("PATH: %s%s\n", APP_PATH, request->path );
+    httpResponse * response = ( httpResponse * ) malloc( sizeof( httpResponse ) );
     
+    char * path = ( char * ) malloc( strlen( APP_PATH ) + strlen( request->path ) + 1 );
+    if( path  == NULL )
+    {
+        response->response_body = bad_request(); 
+        return response;
+    } 
+    path[0] = '\0';
+    strcat( path, APP_PATH) ;
+    strcat( path, request->path );
+    printf("PATH: %s%s\n", APP_PATH, request->path );
     
-  file_c * html = get_html_data( ( const char * ) path );
-  if( html == NULL || html->size == 0 )
-  {
-    response->response_body = bad_request(); //ToDo: 404 status
+    file_c * html = get_html_data( ( const char * ) path );
+    if( html == NULL || html->size == 0 )
+    {
+        response->response_body = bad_request(); 
+        return response;
+    }
+    
+    size_t header_len = snprintf(
+    	NULL, 0, 
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: text/html; charset=UTF-8\r\n"
+        "Content-Length: %zu\r\n"
+        "\r\n", 
+        html->size
+    );
+
+    size_t total_len = header_len + html->size + 1; 
+    char * response_body = ( char * ) malloc( total_len );
+
+    if (response_body == NULL) 
+    {
+        free(path);
+        free(html->content);
+        free(html);
+        response->response_body = bad_request();
+        return response;
+    }
+
+    snprintf(
+    	response_body, total_len,
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: text/html; charset=UTF-8\r\n"
+        "Content-Length: %zu\r\n"
+        "\r\n"
+        "%s",
+        html->size, html->content
+    );
+
+    response->response_body = response_body;
+    printf( "In response, response body: %s\n", response->response_body );
+    
+    free(path);
+    free(html->content);
+    free(html);
+    
     return response;
-  }
-  
-  char * response_body = ( char * ) malloc( BUFFER_SIZE * sizeof( char ) );
-  
-  snprintf( 
-    response_body, ( size_t ) BUFFER_SIZE, 
-    "HTTP/1.1 200 OK\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: %zu\r\n"
-    "\r\n"
-    "%s"
-    "\0",
-    html->size,
-    html->content
-  );	
-  
-  response->response_body = response_body;
-  printf("In response, repsonse body: %s\n", response->response_body  );
-  
-  return response;
 }
 
 
@@ -101,10 +114,10 @@ char * bad_request( void )
     "</body>\n"
     "</html>\n";
   
-  char * response = ( char * ) malloc( BUFFER_SIZE * sizeof( char ) );
+  char * response = ( char * ) malloc( 512 * sizeof( char ) );
   
   snprintf( 
-    response, ( size_t ) BUFFER_SIZE, 
+    response, ( size_t ) 512, 
     "HTTP/1.1 400 BAD REQUEST\r\n"
     "Content-Type: text/html; charset=UTF-8\r\n"
     "Content-Length: %zu\r\n"
