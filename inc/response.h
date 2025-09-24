@@ -14,8 +14,6 @@ typedef struct RESPONSE_TYPE{
   unsigned short int status;
 }httpResponse;
 
-static const char * APP_PATH = "app";
-
 char * send_example_response( void );
 
 httpResponse * get_response( httpRequest * );

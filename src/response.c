@@ -1,5 +1,6 @@
 #include "../inc/response.h"
 
+const char * APP_PATH = "app";
 
 char * send_example_response( void )
 {

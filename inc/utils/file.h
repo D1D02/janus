@@ -10,7 +10,7 @@
 typedef struct FILE_CONTENT{
   char * content;
   size_t size;
-  char * type;
+  const char * type;
 }file_c;
 
 
